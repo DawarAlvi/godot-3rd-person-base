@@ -1,0 +1,75 @@
+[gd_scene load_steps=8 format=2]
+
+[ext_resource path="res://default_env.tres" type="Environment" id=1]
+[ext_resource path="res://Materials/Prototype/ProtoOrange_02.material" type="Material" id=2]
+[ext_resource path="res://Materials/Prototype/ProtoDark_03.material" type="Material" id=3]
+[ext_resource path="res://Materials/Prototype/ProtoRed_04.material" type="Material" id=4]
+[ext_resource path="res://Materials/Prototype/ProtoPurple_04.material" type="Material" id=5]
+[ext_resource path="res://Prefabs/Player.tscn" type="PackedScene" id=6]
+[ext_resource path="res://Scripts/Camera.gd" type="Script" id=7]
+
+[node name="World" type="Spatial"]
+
+[node name="Env" type="WorldEnvironment" parent="."]
+environment = ExtResource( 1 )
+
+[node name="Sun" type="DirectionalLight" parent="."]
+transform = Transform( 0.676059, -0.72204, -0.146979, 0.549582, 0.36124, 0.753303, -0.49082, -0.590054, 0.64104, 0, 16.5, 0 )
+light_color = Color( 1, 0.831333, 0.56, 1 )
+shadow_enabled = true
+shadow_color = Color( 0.168627, 0.168627, 0.168627, 1 )
+
+[node name="Level" type="CSGCombiner" parent="."]
+use_collision = true
+
+[node name="Walls" type="CSGPolygon" parent="Level"]
+transform = Transform( 1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 8, 0 )
+polygon = PoolVector2Array( -8, -11, -8, 12, 8, 12, 7.5, 11.5, -7.5, 11.5, -7.5, -10.5, 7.5, -10.5, 7.5, -4, 15.5, -4, 15.5, 7.5, 7.5, 7.5, 7.5, 11.5, 8, 12, 8, 8, 16, 8, 16, -4.5, 8, -4.5, 8, -11 )
+depth = 8.0
+material = ExtResource( 2 )
+
+[node name="Doorway" type="CSGBox" parent="Level/Walls"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 12, -5 )
+operation = 2
+width = 4.0
+height = 1.0
+depth = 6.0
+material = ExtResource( 4 )
+
+[node name="Floor" type="CSGBox" parent="Level"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0 )
+use_collision = true
+width = 50.0
+height = 1.0
+depth = 100.0
+material = ExtResource( 3 )
+
+[node name="Ramp" type="CSGBox" parent="Level"]
+transform = Transform( -1, 2.26267e-08, -8.44439e-08, 0, 0.965926, 0.258819, 8.74228e-08, 0.258819, -0.965926, 0, 0.5, -24.6748 )
+use_collision = true
+width = 7.0
+height = 1.0
+depth = 11.0
+material = ExtResource( 2 )
+
+[node name="Ramp2" type="CSGBox" parent="Level"]
+transform = Transform( -1, 2.26267e-08, -8.44439e-08, 2.26267e-08, 1, 0, 8.44439e-08, 0, -1, 0, 1.90565, -35.371 )
+use_collision = true
+width = 7.0
+height = 1.0
+depth = 11.0
+material = ExtResource( 2 )
+
+[node name="Ceiling" type="CSGPolygon" parent="Level"]
+transform = Transform( 1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 8.5, -1.77636e-15 )
+polygon = PoolVector2Array( -8, -11, -8, -10.5, 0, -10.5, 0, -4.5, -7.5, -4.5, -7.5, -10.5, -8, -10.5, -8, -4.5, -8, 12, 1, 12, 1, 12, 8, 12, 8, 8, 16, 8, 16, -4.5, 8, -4.5, 8, -11 )
+depth = 0.5
+material = ExtResource( 5 )
+
+[node name="Player" parent="." instance=ExtResource( 6 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -16.7548 )
+
+[node name="Camera" type="Camera" parent="."]
+current = true
+script = ExtResource( 7 )
+target_parent = NodePath("../Player")
